@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Community Games Hosting App (Beta)</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+    }
+    header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        border-radius: 8px;
+    }
+    h1 {
+        margin: 0;
+    }
+    .container {
+        max-width: 900px;
+        margin: 20px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    input, select, button {
+        padding: 10px;
+        font-size: 1em;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    .game-list {
+        margin-top: 30px;
+    }
+    .game {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        background-color: #fafafa;
+        transition: background-color 0.2s;
+    }
+    .game:hover {
+        background-color: #f0f0f0;
+    }
+    .delete-btn {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+    }
+    .delete-btn:hover {
+        background-color: #c0392b;
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Community Games Hosting App (Beta)</h1>
+</header>
+<div class="container">
+    <h2>Een nieuwe game hosten</h2>
+    <form id="gameForm">
+        <input type="text" id="gameTitle" placeholder="Titel van de game" required />
+        <select id="gameType" required>
+            <option value="">Kies een game type</option>
+            <option value="FPS">FPS</option>
+            <option value="Battle Royale">Battle Royale</option>
+            <option value="Moeilijkheid">Moeilijkheid</option>
+            <option value="Party">Party</option>
+            <option value="Andere">Andere</option>
+        </select>
+        <input type="datetime-local" id="gameTime" required />
+        <button type="submit">Host Game</button>
+    </form>
+
+    <div class="game-list" id="gameList">
+        <h2>Geplaatste Games</h2>
+        <!-- Games worden hier toegevoegd -->
+    </div>
+</div>
+
+<script>
+    // Functie om games op te slaan in LocalStorage
+    function saveGames(games) {
+        localStorage.setItem('games', JSON.stringify(games));
+    }
+
+    // Functie om games te laden uit LocalStorage
+    function loadGames() {
+        const data = localStorage.getItem('games');
+        return data ? JSON.parse(data) : [];
+    }
+
+    // Functie om game toe te voegen aan de lijst
+    function addGameToDOM(game, index) {
+        const gameDiv = document.createElement('div');
+        gameDiv.className = 'game';
+
+        const title = document.createElement('h3');
+        title.textContent = game.title;
+
+        const details = document.createElement('p');
+        details.innerHTML = `<strong>Type:</strong> ${game.type}<br/><strong>Wanneer:</strong> ${new Date(game.time).toLocaleString()}`;
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.textContent = 'Verwijder';
+        deleteBtn.onclick = () => {
+            deleteGame(index);
+        };
+
+        gameDiv.appendChild(title);
+        gameDiv.appendChild(details);
+        gameDiv.appendChild(deleteBtn);
+
+        document.getElementById('gameList').appendChild(gameDiv);
+    }
+
+    // Functie om alle games te laden en weer te geven
+    function renderGames() {
+        const games = loadGames();
+        const listContainer = document.getElementById('gameList');
+        listContainer.innerHTML = '<h2>Geplaatste Games</h2>'; // Reset lijst
+        games.forEach((game, index) => {
+            addGameToDOM(game, index);
+        });
+    }
+
+    // Functie om game te verwijderen
+    function deleteGame(index) {
+        const games = loadGames();
+        games.splice(index, 1);
+        saveGames(games);
+        renderGames();
+    }
+
+    // Event listener voor formulier
+    document.getElementById('gameForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const title = document.getElementById('gameTitle').value;
+        const type = document.getElementById('gameType').value;
+        const time = document.getElementById('gameTime').value;
+
+        if(title && type && time) {
+            const newGame = {
+                title: title,
+                type: type,
+                time: time
+            };
+            const games = loadGames();
+            games.push(newGame);
+            saveGames(games);
+            renderGames();
+            document.getElementById('gameForm').reset();
+        }
+    });
+
+    // Initialiseren bij pagina laden
+    window.onload = () => {
+        renderGames();
+    };
+</script>
+</body>
+</html>

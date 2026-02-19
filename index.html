@@ -1,69 +1,37 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gaming Community</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #121212;
-      color: #fff;
-    }
-    header {
-      display: flex;
-      justify-content: flex-end;
-      padding: 10px 20px;
-      background-color: #1f1f1f;
-    }
-    .discord-login {
-      background-color: #5865F2;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-      text-decoration: none;
-    }
-    main {
-      padding: 20px;
-    }
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    .category {
-      background-color: #2a2a2a;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-      transition: background-color 0.3s;
-    }
-    .category:hover {
-      background-color: #3a3a3a;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gaming Community</title>
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <a class="discord-login" href="https://discord.com/api/oauth2/authorize?client_id=JE_CLIENT_ID&redirect_uri=JE_REDIRECT_URI&response_type=code&scope=identify%20guilds">Inloggen met Discord</a>
-  </header>
-  <main>
-    <h1>Welkom bij de Gaming Community</h1>
-    <p>Speel en deel je favoriete games in verschillende categorieën.</p>
-    <div class="categories">
-      <div class="category">Actief</div>
-      <div class="category">Simulator</div>
-      <div class="category">Chill</div>
-      <div class="category">Rustgevend</div>
-      <div class="category">Schieten</div>
-      <div class="category">Driften</div>
-      <div class="category">Limits Rijden</div>
-      <div class="category">Alles</div>
-    </div>
-  </main>
+<header>
+  <div class="header-content">
+    <h1>Gaming Community</h1>
+    <button id="discord-login" class="btn">Inloggen met Discord</button>
+  </div>
+</header>
+
+<main>
+  <section id="games-section">
+    <h2>Populaire Games</h2>
+    <div id="games-container"></div>
+  </section>
+</main>
+
+<script src="games.js"></script>
+<script>
+  // Laad games dynamisch
+  document.addEventListener("DOMContentLoaded", () => {
+    loadGames();
+
+    // Discord login knop
+    document.getElementById("discord-login").addEventListener("click", () => {
+      window.location.href = "/auth"; // Dit wordt door je backend afgehandeld
+    });
+  });
+</script>
 </body>
 </html>

@@ -3,35 +3,227 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Gaming Community</title>
-<link rel="stylesheet" href="styles.css" />
+<title>Gaming Hub - Dark Mode</title>
+<!-- Font Awesome voor icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+  /* Reset & basis styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    line-height: 1.6;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  /* Header */
+  header {
+    background: rgba(0,0,0,0.7);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+  }
+
+  header h1 i {
+    margin-right: 10px;
+    color: #5865F2;
+  }
+
+  /* Buttons */
+.btn {
+    background: #5865F2;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+.btn i {
+  margin-right: 8px;
+}
+
+.btn:hover {
+    background: #4752c4;
+    transform: scale(1.05);
+  }
+
+  /* Main content */
+main {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Section styles */
+section {
+  margin-bottom: 50px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+h2 i {
+  margin-right: 10px;
+  color: #5865F2;
+}
+
+/* Games grid */
+#games-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Game card styles */
+.game-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  text-decoration: none;
+  color: #fff;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.game-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+}
+
+.game-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  transition: filter 0.3s;
+}
+
+.game-card:hover img {
+  filter: brightness(0.8);
+}
+
+.game-title {
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Footer */
+footer {
+  background: rgba(0,0,0,0.7);
+  padding: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  backdrop-filter: blur(10px);
+}
+
+/* Background & icons */
+body {
+  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.4&auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+</style>
 </head>
 <body>
+
 <header>
-  <div class="header-content">
-    <h1>Gaming Community</h1>
-    <button id="discord-login" class="btn">Inloggen met Discord</button>
-  </div>
+  <h1><i class="fas fa-gamepad"></i> Gaming Hub</h1>
+  <button class="btn" id="discord-login"><i class="fab fa-discord"></i> Inloggen met Discord</button>
 </header>
 
 <main>
+  <!-- Games Section -->
   <section id="games-section">
-    <h2>Populaire Games</h2>
+    <h2><i class="fas fa-gamepad"></i> Populaire Games</h2>
     <div id="games-container"></div>
   </section>
 </main>
 
-<script src="games.js"></script>
-<script>
-  // Laad games dynamisch
-  document.addEventListener("DOMContentLoaded", () => {
-    loadGames();
+<!-- Footer -->
+<footer>
+  &copy; 2024 Gaming Hub. Alle rechten voorbehouden.
+</footer>
 
-    // Discord login knop
-    document.getElementById("discord-login").addEventListener("click", () => {
-      window.location.href = "/auth"; // Dit wordt door je backend afgehandeld
-    });
+<!-- Scripts -->
+<script>
+const games = [
+  { name: "Fireboy and Watergirl 1", url: "https://www.crazygames.com/game/fireboy-and-watergirl-1" },
+  { name: "Moto X3M", url: "https://www.crazygames.com/game/moto-x3m" },
+  { name: "Super Fighters", url: "https://www.crazygames.com/game/super-fighters" },
+  { name: "Run 3", url: "https://www.crazygames.com/game/run-3" },
+  { name: "Shell Shockers", url: "https://www.crazygames.com/game/shell-shockers" },
+  { name: "Happy Wheels", url: "https://www.crazygames.com/game/happy-wheels" },
+  { name: "Tank Trouble", url: "https://www.crazygames.com/game/tank-trouble" }
+];
+
+function loadGames() {
+  const container = document.getElementById("games-container");
+  games.forEach(game => {
+    const card = document.createElement("a");
+    card.href = game.url;
+    card.target = "_blank";
+    card.className = "game-card";
+
+    const img = document.createElement("img");
+    // Placeholder afbeelding, vervang met echte iconen of afbeeldingen indien gewenst
+    img.src = `https://via.placeholder.com/400x150/ffffff/000000?text=${encodeURIComponent(game.name)}`;
+    img.alt = game.name;
+
+    const title = document.createElement("div");
+    title.className = "game-title";
+    title.textContent = game.name;
+
+    card.appendChild(img);
+    card.appendChild(title);
+    container.appendChild(card);
   });
+}
+
+// Laad games bij het laden van de pagina
+document.addEventListener("DOMContentLoaded", loadGames);
+
+// Discord login knop
+document.getElementById("discord-login").addEventListener("click", () => {
+  window.location.href = "/auth"; // Backend route voor OAuth
+});
 </script>
 </body>
 </html>

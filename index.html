@@ -2,265 +2,167 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Gaming Hub - Dark Mode</title>
-<!-- Font Awesome voor icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>City Driving Simulator Online</title>
 <style>
-  /* Reset & basis styles */
+  /* Reset en basisstijl */
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: #fff;
-    min-height: 100vh;
-    overflow-x: hidden;
-    transition: all 0.5s ease;
-  }
 
-  /* Header */
-  header {
-    background: rgba(0,0,0,0.7);
-    padding: 20px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    backdrop-filter: blur(10px);
-  }
-
-  header h1 {
-    font-size: 2.2rem;
-    display: flex;
-    align-items: center;
-  }
-  header h1 i {
-    margin-right: 10px;
-    color: #5865F2;
-  }
-
-  /* Buttons */
-.btn {
-    background: #5865F2;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s;
-  }
-.btn i {
-  margin-right: 8px;
-}
-.btn:hover {
-    background: #4752c4;
-    transform: scale(1.05);
-  }
-
-  /* Main content */
-main {
-  padding: 40px 20px;
-  max-width: 1200px;
-  margin: auto;
-}
-
-/* Section styles */
-section {
-  margin-bottom: 50px;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 1s forwards;
-}
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-h2 {
-  margin-bottom: 20px;
-  font-size: 2rem;
+  /* Body met achtergrondafbeelding en overlay */
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+              url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+  color: #fff;
+  line-height: 1.6;
+  min-height: 100vh;
   display: flex;
-  align-items: center;
-  transition: all 0.3s;
-}
-h2 i {
-  margin-right: 10px;
-  color: #5865F2;
+  flex-direction: column;
 }
 
-/* Games grid */
-#games-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+/* Header styling */
+header {
+  text-align: center;
+  padding: 80px 20px 40px 20px;
+  background: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 2s ease-in-out;
+}
+
+header h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+header p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.cta-button {
+  padding: 15px 30px;
+  background-color: #ff4b2b;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+  border-radius: 50px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #ff416c;
+  transform: scale(1.05);
+}
+
+/* Sectie spellen */
+#games {
+  padding: 50px 20px;
+  text-align: center;
+  flex: 1;
+}
+
+#games h2 {
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
-/* Game card styles */
-.game-card {
-  background: rgba(255,255,255,0.05);
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
   border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  text-decoration: none;
-  color: #fff;
-  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
+  width: 300px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-.game-card:hover {
-  transform: translateY(-8px);
+
+.card:hover {
+  transform: translateY(-10px);
   box-shadow: 0 12px 24px rgba(0,0,0,0.4);
-  filter: brightness(1.1);
 }
-.game-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  transition: filter 0.3s;
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 1.5em;
 }
-.game-title {
-  padding: 15px;
-  font-size: 1.1rem;
+
+.card p {
+  margin-bottom: 15px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #00c6ff;
+  color: #fff;
+  border-radius: 25px;
+  text-decoration: none;
   font-weight: bold;
-  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #0072ff;
 }
 
 /* Footer */
 footer {
-  background: rgba(0,0,0,0.7);
-  padding: 20px;
   text-align: center;
-  font-size: 0.9rem;
-  backdrop-filter: blur(10px);
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+  font-size: 0.9em;
+  margin-top: auto;
 }
 
-/* Background & icons */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.4&auto=format&fit=crop&w=1600&q=80');
-  background-size: cover;
-  background-position: center;
-  transition: background 1s;
-}
-
-/* Animatie voor fade-in */
+/* Animaties fade in */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Responsive & smooth scroll */
-html {
-  scroll-behavior: smooth;
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
 </style>
 </head>
 <body>
-
 <header>
-  <h1><i class="fas fa-gamepad"></i> Gaming Hub</h1>
-  <button class="btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Inloggen</button>
+  <h1>City Driving Simulator Online</h1>
+  <p>Stap in de virtuele stad en rij met de beste simulators!</p>
+  <a href="#games" class="cta-button">Ontdek de spellen</a>
 </header>
 
-<main>
-  <!-- Games Section -->
-  <section id="games-section">
-    <h2><i class="fas fa-gamepad"></i> Populaire Games</h2>
-    <div id="games-container"></div>
-  </section>
-</main>
+<section id="games">
+  <h2>Onze Top Spellen</h2>
+  <div class="cards-container">
+    <div class="card">
+      <h3>City Car Driving</h3>
+      <p>Realistische stadsrij-ervaring met online multiplayer.</p>
+      <a href="https://citycardriving.com/" target="_blank" class="btn">Meer info</a>
+    </div>
+    <div class="card">
+      <h3>Euro Truck Simulator 2</h3>
+      <p>Rijd door Europa in een uitgebreide truck simulator.</p>
+      <a href="https://www.eurotrucksimulator2.com/" target="_blank" class="btn">Meer info</a>
+    </div>
+    <div class="card">
+      <h3>GTA Online</h3>
+      <p>Maak je eigen stadavontuur online in GTA V.</p>
+      <a href="https://www.rockstargames.com/gta-online" target="_blank" class="btn">Meer info</a>
+    </div>
+  </div>
+</section>
 
-<!-- Footer -->
 <footer>
-  &copy; 2024 Gaming Hub. Alle rechten voorbehouden.
+  <p>&copy; 2024 City Driving Simulator. Alle rechten voorbehouden.</p>
 </footer>
 
-<script>
-const games = [
-  {
-    name: "Fireboy and Watergirl 1",
-    url: "https://www.crazygames.com/game/fireboy-and-watergirl-1",
-    img: "https://images.unsplash.com/photo-1629383859598-8bfc185c6f4f?ixlib=rb-4.0.4&auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    name: "Moto X3M",
-    url: "https://www.crazygames.com/game/moto-x3m",
-    img: "https://images.unsplash.com/photo-1610650715534-6b4f6bd3b0a6?ixlib=rb-4.0.4&auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    name: "Shell Shockers",
-    url: "https://www.crazygames.com/game/shell-shockers",
-    img: "https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-4.0.4&auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    name: "Run 3",
-    url: "https://www.crazygames.com/game/run-3",
-    img: "https://images.unsplash.com/photo-1629418680529-84a3f8a2f1f4?ixlib=rb-4.0.4&auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    name: "Happy Wheels",
-    url: "https://www.crazygames.com/game/happy-wheels",
-    img: "https://images.unsplash.com/photo-1549887534-7c68084424ca?ixlib=rb-4.0.4&auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    name: "Tank Trouble",
-    url: "https://www.crazygames.com/game/tank-trouble",
-    img: "https://images.unsplash.com/photo-1629444196444-8f6ba8c6a2b4?ixlib=rb-4.0.4&auto=format&fit=crop&w=800&q=80"
-  }
-];
-
-const container = document.getElementById('games-container');
-
-function loadGames() {
-  games.forEach(game => {
-    const card = document.createElement('a');
-    card.href = game.url;
-    card.target = '_blank';
-    card.className = 'game-card';
-
-    const img = document.createElement('img');
-    img.src = game.img;
-    img.alt = game.name;
-
-    const title = document.createElement('div');
-    title.className = 'game-title';
-    title.textContent = game.name;
-
-    card.appendChild(img);
-    card.appendChild(title);
-    container.appendChild(card);
-  });
-}
-
-// Laad games
-document.addEventListener('DOMContentLoaded', loadGames);
-
-const loginBtn = document.getElementById('loginBtn');
-let loggedIn = false;
-
-loginBtn.addEventListener('click', () => {
-  loggedIn = !loggedIn;
-  if (loggedIn) {
-    document.body.style.background = "linear-gradient(135deg, #0f2027, #042b2b)";
-    document.querySelector('header h1').innerHTML = '<i class="fas fa-user-shield"></i> Welkom, Speler!';
-    loginBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Uitloggen';
-  } else {
-    document.body.style.background = "linear-gradient(135deg, #0f2027, #203a43, #2c5364)";
-    document.querySelector('header h1').innerHTML = '<i class="fas fa-gamepad"></i> Gaming Hub';
-    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Inloggen';
-  }
-});
-</script>
 </body>
 </html>

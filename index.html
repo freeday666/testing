@@ -1,83 +1,101 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CityLifeAI_RP</title>
-<style>
-body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow: hidden;
-  animation: backgroundShift 10s infinite alternate;
-}
-@keyframes backgroundShift {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-.container {
-  text-align: center;
-  background: rgba(0,0,0,0.5);
-  border-radius: 15px;
-  padding: 40px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-  animation: fadeIn 2s ease-in-out;
-}
-h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
-  animation: slideIn 1s ease-out;
-}
-.login-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-.btn {
-  padding: 15px 25px;
-  font-size: 1.2em;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255,255,255,0.3);
-}
-.discord { background-color: #7289da; }
-.google { background-color: #db4437; }
-.epic { background-color: #00aaff; }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes slideIn {
-  from { transform: translateY(-20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FREDDO Community Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .chat-area {
+            height: 400px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            overflow-y: scroll;
+            padding: 10px;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .login-form, .chat-form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            padding: 10px 15px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<h1>Welkom bij CityLifeAI_RP</h1>
-<div class="login-buttons">
-  <button class="btn discord" onclick="alert('Log in met Discord')">Login met Discord</button>
-  <button class="btn google" onclick="alert('Log in met Google')">Login met Google</button>
-  <button class="btn epic" onclick="alert('Log in met Epic Games')">Login met Epic Games</button>
-</div>
-</div>
 
-<!-- Simulatie van socket.io en gameplay -->
-<script>
-  // Hier kan je je JavaScript logica toevoegen
-  alert('Dit is een frontend voorbeeld. Backend login moet via server gebeuren.');
-</script>
+    <div class="container">
+        <h1>Welkom bij FREDDO Community Chat</h1>
+        
+        <div class="login-section">
+            <h2>Inloggen</h2>
+            <form class="login-form">
+                <input type="text" placeholder="Gebruikersnaam" required>
+                <input type="password" placeholder="Wachtwoord" required>
+                <input type="submit" value="Inloggen">
+            </form>
+        </div>
+
+        <div class="chat-area" id="chatArea">
+            <!-- Berichten komen hier -->
+        </div>
+
+        <div class="chat-section">
+            <h2>Chat</h2>
+            <form class="chat-form">
+                <input type="text" id="messageInput" placeholder="Typ een bericht..." required>
+                <input type="submit" value="Verzend">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const chatForm = document.querySelector('.chat-form');
+        const messageInput = document.getElementById('messageInput');
+        const chatArea = document.getElementById('chatArea');
+
+        chatForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const message = messageInput.value;
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message';
+            messageElement.textContent = message;
+            chatArea.appendChild(messageElement);
+            messageInput.value = '';
+            chatArea.scrollTop = chatArea.scrollHeight; // Scroll naar beneden
+        });
+    </script>
+    
 </body>
 </html>

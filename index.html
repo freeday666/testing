@@ -1,101 +1,111 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FREDDO Community Chat</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        .chat-area {
-            height: 400px;
-            border: 1px solid #ccc;
-            margin-bottom: 20px;
-            overflow-y: scroll;
-            padding: 10px;
-        }
-        .message {
-            margin: 5px 0;
-        }
-        .login-form, .chat-form {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        input[type="text"], input[type="password"] {
-            width: 70%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        input[type="submit"] {
-            padding: 10px 15px;
-            border: none;
-            background-color: #28a745;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8" />
+<title>First Person Google Maps Race</title>
+<style>
+  body { margin:0; overflow:hidden; font-family:sans-serif; }
+  #ui {
+    position: absolute; top:10px; left:10px;
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    z-index: 3;
+  }
+  #streetview {
+    width: 100vw; height: 100vh;
+  }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Welkom bij FREDDO Community Chat</h1>
-        
-        <div class="login-section">
-            <h2>Inloggen</h2>
-            <form class="login-form">
-                <input type="text" placeholder="Gebruikersnaam" required>
-                <input type="password" placeholder="Wachtwoord" required>
-                <input type="submit" value="Inloggen">
-            </form>
-        </div>
+<div id="ui">
+  <div>Locatie: <span id="location">Amsterdam</span></div>
+  <div>Job: <span id="job">Rijder</span></div>
+  <div>Snelheid: <span id="speed">0</span> km/u</div>
+  <div>RPM: <span id="rpm">0</span></div>
+  <div>Tijd: <span id="time">0.0</span> s</div>
+  <div>Missies voltooid: <span id="missions">0</span>/5</div>
+  <div>Actieve missie: <span id="currentMission">Geen</span></div>
+</div>
 
-        <div class="chat-area" id="chatArea">
-            <!-- Berichten komen hier -->
-        </div>
+<div id="streetview"></div>
 
-        <div class="chat-section">
-            <h2>Chat</h2>
-            <form class="chat-form">
-                <input type="text" id="messageInput" placeholder="Typ een bericht..." required>
-                <input type="submit" value="Verzend">
-            </form>
-        </div>
-    </div>
+<script>
+  let panorama;
+  let speed = 0; // km/u
+  let rpm = 0;
+  let timeElapsed = 0;
+  let missionsCompleted = 0;
+  let currentMission = "Geen";
 
-    <script>
-        const chatForm = document.querySelector('.chat-form');
-        const messageInput = document.getElementById('messageInput');
-        const chatArea = document.getElementById('chatArea');
+  // Initial positie (Amsterdam)
+  const initPosition = { lat: 52.370216, lng: 4.895168 };
 
-        chatForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const message = messageInput.value;
-            const messageElement = document.createElement('div');
-            messageElement.className = 'message';
-            messageElement.textContent = message;
-            chatArea.appendChild(messageElement);
-            messageInput.value = '';
-            chatArea.scrollTop = chatArea.scrollHeight; // Scroll naar beneden
-        });
-    </script>
-    
+  function init() {
+    panorama = new google.maps.StreetViewPanorama(
+      document.getElementById('streetview'),
+      {
+        position: initPosition,
+        pov: { heading: 0, pitch: 0 },
+        zoom: 1,
+        disableDefaultUI: true,
+      }
+    );
+
+    // Update tijd elke seconde
+    setInterval(() => {
+      timeElapsed += 1;
+      document.getElementById('time').textContent = timeElapsed.toFixed(1);
+    }, 1000);
+
+    // Event listener voor toetsenbord
+    document.addEventListener('keydown', handleKeyDown);
+  }
+
+  function handleKeyDown(e) {
+    const stepSize = 5; // graden
+    const moveDistance = 10; // meters per knopdruk
+
+    switch(e.key) {
+      case 'ArrowLeft':
+        panorama.setPov({ heading: panorama.getPov().heading - stepSize, pitch: panorama.getPov().pitch });
+        break;
+      case 'ArrowRight':
+        panorama.setPov({ heading: panorama.getPov().heading + stepSize, pitch: panorama.getPov().pitch });
+        break;
+      case 'ArrowUp':
+        moveForward(moveDistance);
+        break;
+      case 'ArrowDown':
+        moveForward(-moveDistance);
+        break;
+    }
+  }
+
+  function moveForward(distanceMeters) {
+    const pos = panorama.getPosition();
+    const heading = panorama.getPov().heading;
+
+    const rad = heading * Math.PI / 180;
+    const newLat = pos.lat() + (distanceMeters * Math.cos(rad)) / 111111; // ongeveer
+    const newLng = pos.lng() + (distanceMeters * Math.sin(rad)) / (111111 * Math.cos(pos.lat() * Math.PI / 180));
+
+    panorama.setPosition({ lat: newLat, lng: newLng });
+  }
+
+  // Simuleer snelheid en RPM
+  setInterval(() => {
+    document.getElementById('speed').textContent = speed.toFixed(1);
+    document.getElementById('rpm').textContent = rpm.toFixed(0);
+  }, 500);
+
+  // Initializeer de Street View
+  window.onload = init;
+</script>
+<!-- Google Maps API met jouw API-sleutel -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFQMJ_GpXO_gCoTCqIy0yn8OKRFlRnD0A&callback=init"
+async defer></script>
 </body>
 </html>

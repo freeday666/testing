@@ -2,83 +2,82 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8" />
-<title>Raad Het Getal Game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CityLifeAI_RP</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f8ff;
-        text-align: center;
-        padding-top: 50px;
-    }
-    input[type="number"] {
-        width: 60px;
-        font-size: 1.2em;
-        padding: 5px;
-    }
-    button {
-        font-size: 1em;
-        padding: 5px 10px;
-        margin-left: 10px;
-    }
-    #result {
-        margin-top: 20px;
-        font-size: 1.2em;
-    }
-    #attempts {
-        margin-top: 10px;
-    }
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  animation: backgroundShift 10s infinite alternate;
+}
+@keyframes backgroundShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.container {
+  text-align: center;
+  background: rgba(0,0,0,0.5);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  animation: fadeIn 2s ease-in-out;
+}
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  animation: slideIn 1s ease-out;
+}
+.login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.btn {
+  padding: 15px 25px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+.discord { background-color: #7289da; }
+.google { background-color: #db4437; }
+.epic { background-color: #00aaff; }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
 </style>
 </head>
 <body>
-<h1>Raad Het Getal</h1>
-<p>Ik heb een getal tussen 1 en 100. Kun jij het raden?</p>
-<input type="number" id="guessInput" min="1" max="100" />
-<button onclick="raad()">Raad</button>
-<div id="result"></div>
-<div id="attempts"></div>
+<div class="container">
+<h1>Welkom bij CityLifeAI_RP</h1>
+<div class="login-buttons">
+  <button class="btn discord" onclick="alert('Log in met Discord')">Login met Discord</button>
+  <button class="btn google" onclick="alert('Log in met Google')">Login met Google</button>
+  <button class="btn epic" onclick="alert('Log in met Epic Games')">Login met Epic Games</button>
+</div>
+</div>
 
+<!-- Simulatie van socket.io en gameplay -->
 <script>
-    // Willekeurig getal tussen 1 en 100
-    const geheimeGetal = Math.floor(Math.random() * 100) + 1;
-    let aantalPogingen = 0;
-
-    function raad() {
-        const invoer = document.getElementById('guessInput');
-        const resultaat = document.getElementById('result');
-        const attemptsDiv = document.getElementById('attempts');
-        const gok = parseInt(invoer.value);
-
-        // Controleer of invoer geldig is
-        if (isNaN(gok) || gok < 1 || gok > 100) {
-            resultaat.textContent = 'Voer een geldig getal in tussen 1 en 100.';
-            return;
-        }
-
-        aantalPogingen++;
-        if (gok === geheimeGetal) {
-            resultaat.textContent = `Gefeliciteerd! Je raadde het getal in ${aantalPogingen} pogingen!`;
-            // Reset het spel
-            resetSpel();
-        } else if (gok < geheimeGetal) {
-            resultaat.textContent = 'Te laag! Probeer het hogere getal.';
-        } else {
-            resultaat.textContent = 'Te hoog! Probeer het lagere getal.';
-        }
-
-        invoer.value = '';
-        attemptsDiv.textContent = `Aantal pogingen: ${aantalPogingen}`;
-    }
-
-    function resetSpel() {
-        // Na een overwinning, start een nieuw spel
-        setTimeout(() => {
-            // Nieuwe geheime getal
-            geheimeGetal = Math.floor(Math.random() * 100) + 1;
-            aantalPogingen = 0;
-            document.getElementById('result').textContent = '';
-            document.getElementById('attempts').textContent = '';
-        }, 3000); // Wacht 3 seconden voordat reset
-    }
+  // Hier kan je je JavaScript logica toevoegen
+  alert('Dit is een frontend voorbeeld. Backend login moet via server gebeuren.');
 </script>
 </body>
 </html>
